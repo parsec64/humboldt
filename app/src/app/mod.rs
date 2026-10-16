@@ -1,4 +1,5 @@
 mod app;
+mod sidebar;
 mod explorer;
 mod settings;
 
@@ -12,14 +13,18 @@ pub struct App<'a: 'static> {
     title: &'a str,
     theme: AppTheme,
     screen: AppScreen,
+    
+    sidebar_open: bool,
 
     explorer: Option<Explorer>,
     settings: Option<Settings>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum AppMessage {
     LoadApp,
+    SetScreen(AppScreen),
+    SetSidebarOpen,
 
     ExplorerMessage(ExplorerMessage),
     SettingsMessage(SettingsMessage),

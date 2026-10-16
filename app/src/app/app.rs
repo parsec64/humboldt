@@ -1,6 +1,6 @@
 use iced::theme::Palette;
-use iced::widget::{row, container, text};
-use iced::{Border, Element, Length, Task, Theme, color};
+use iced::widget::row;
+use iced::{Element, Task, Theme, color};
 
 use super::{App, AppMessage};
 use super::explorer::Explorer;
@@ -18,6 +18,7 @@ impl App<'static> {
                 title: APP_NAME,
                 theme: AppTheme::Dark,
                 screen: AppScreen::Explorer,
+                sidebar_open: true,
 
                 explorer: None,
                 settings: None,
@@ -38,30 +39,17 @@ impl App<'static> {
                     Some(dashboard) => dashboard.view().map(|m| AppMessage::ExplorerMessage(m)),
                     None => loading_screen_view(),
                 },
+                AppScreen::Find => loading_screen_view(),
+                AppScreen::Home => loading_screen_view(),
+                AppScreen::Devices => loading_screen_view(),
+                AppScreen::Explain => loading_screen_view(),
+                AppScreen::Store => loading_screen_view(),
                 AppScreen::Settings => match &self.settings {
                     Some(settings) => settings.view().map(|m| AppMessage::SettingsMessage(m)),
                     None => loading_screen_view(),
                 },
             }
         ]
-        .into()
-    }
-
-    pub fn sidebar_view(&self) -> Element<'_, AppMessage> {
-        container(
-            text("Side bar")
-        )
-        .height(Length::Fill)
-        .width(250)
-        .padding(10)
-        .style(|theme: &Theme| container::Style {
-            border: Border {
-                color: theme.palette().primary,
-                width: 0.5,
-                ..Default::default()
-            },
-            ..Default::default()
-        })
         .into()
     }
 
@@ -79,6 +67,14 @@ impl App<'static> {
                     settings_task.map(|m| AppMessage::SettingsMessage(m)),
                 ])
             },
+            AppMessage::SetScreen(screen) => {
+                self.screen = screen;
+                Task::none()
+            }
+            AppMessage::SetSidebarOpen  => {
+                self.sidebar_open = !self.sidebar_open;
+                Task::none()
+            },
             AppMessage::ExplorerMessage(dashboard_m) => match &mut self.explorer {
                 Some(dashboard) => dashboard.update(dashboard_m).map(|m| AppMessage::ExplorerMessage(m)),
                 None => Task::none(),
@@ -93,7 +89,12 @@ impl App<'static> {
     pub fn title(&self) -> String {
         match self.screen {
             AppScreen::Explorer => format!("{} - Explorer", self.title),
-            AppScreen::Settings => format!("{} - Settings", self.title)
+            AppScreen::Find => format!("{} - Find", self.title),
+            AppScreen::Home => format!("{} - Home", self.title),
+            AppScreen::Devices => format!("{} - Devices", self.title),
+            AppScreen::Explain => format!("{} - Explain", self.title),
+            AppScreen::Store => format!("{} - Store", self.title),
+            AppScreen::Settings => format!("{} - Settings", self.title),
         }
     }
 

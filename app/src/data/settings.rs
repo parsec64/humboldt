@@ -22,6 +22,11 @@ pub enum AppTheme {
 pub enum AppScreen {
     #[default]
     Explorer,
+    Find,
+    Home,
+    Devices,
+    Explain,
+    Store,
     Settings,
 }
 
