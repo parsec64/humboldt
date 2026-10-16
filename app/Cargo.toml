@@ -1,0 +1,15 @@
+[package]
+name = "app"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+iced = { version = "0.14.0", features = ["tokio"] }
+iced_phosphor = {
+    git = "https://github.com/parsec64/iced_phosphor",
+    features = ["fill", "regular"]
+}
+dotenv = "0.15.0"
+serde = "1.0.229"
+serde_json = "1.0.154"
+directories = "6.0.0"

@@ -1,10 +1,14 @@
-mod app;
+pub mod app;
+pub mod data;
+pub mod components;
+pub mod constants;
+pub mod utils;
 
-use dotenv::dotenv;
 use iced::{Font, application, window};
+use iced_phosphor::{FONT_REGULAR, FONT_FILL};
+use dotenv::dotenv;
 
-use crate::app::App;
-
+use app::App;
 
 fn main() -> iced::Result {
     dotenv().ok();
@@ -20,7 +24,8 @@ fn main() -> iced::Result {
         )
         .title(App::title)
         .theme(App::theme)
-        // .font(icon::FONT)
+        .font(FONT_REGULAR)
+        .font(FONT_FILL)
         .default_font(Font::MONOSPACE)
         .centered()
         .run()
